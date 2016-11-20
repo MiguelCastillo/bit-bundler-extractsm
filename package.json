@@ -1,6 +1,6 @@
 {
   "name": "bit-bundler-extractsm",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "bit-bundler plugins for extracting source maps into their own files",
   "main": "index.js",
   "scripts": {
