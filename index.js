@@ -24,7 +24,7 @@ function extractSourcemaps(options) {
       var sourceMapComment = convertSourceMap.generateMapFileComment(sourceMapUrl);
 
       return bundle
-        .setSourcemap(null)
+        .setSourcemap(sourceMap.map)
         .setContent(sourceMap.code + sourceMapComment);
     }
   }
@@ -32,14 +32,11 @@ function extractSourcemaps(options) {
   function splitSourcemap(bundle) {
     var sourceMap = bundle.sourcemap;
     var bundleContent = bundle.content.toString();
+    var converter = convertSourceMap.fromSource(bundleContent, true);
 
-    if (!sourceMap) {
-      var converter = convertSourceMap.fromSource(bundleContent, true);
-
-      if (converter) {
-        sourceMap = converter.toJSON();
-        bundleContent = convertSourceMap.removeComments(bundleContent);
-      }
+    if (converter) {
+      sourceMap = converter.toJSON();
+      bundleContent = convertSourceMap.removeComments(bundleContent);
     }
 
     return {
