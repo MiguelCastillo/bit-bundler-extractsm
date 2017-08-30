@@ -7,10 +7,11 @@ var fs = require("fs");
 function extractSourcemaps(options) {
   options = options || {};
 
-  function extractit(bundle, filename) {
+  function extractit(bundle) {
     var settings = options[bundle.name] || options;
     settings = settings.options || settings;
 
+    var filename = bundle.dest;
     var directory = path.dirname(filename);
     var basename = path.basename(filename);
     var sourceMapUrl = settings.sourceMapUrl || basename + ".map";
