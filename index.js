@@ -52,7 +52,7 @@ function extractSourcemaps(options) {
 
   return {
     postbundle: postbundle
-  }
+  };
 }
 
 
