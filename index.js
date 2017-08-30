@@ -1,4 +1,3 @@
-var utils = require("belty");
 var mkdirp = require("mkdirp");
 var path = require("path");
 var convertSourceMap = require("convert-source-map");
