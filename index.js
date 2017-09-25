@@ -4,10 +4,10 @@ var convertSourceMap = require("convert-source-map");
 var fs = require("fs");
 
 function extractSourcemaps(options) {
-  options = options || {};
+  options = options === false ? options : (options || {});
 
   function extractit(bundle) {
-    var settings = Object.assign({}, options[bundle.name] || options);
+    var settings = options === false || options[bundle.name] === false ? false : Object.assign({}, options[bundle.name] || options);
     var fileName = bundle.dest;
     var directory = path.dirname(fileName);
     var sourceMapUrl = (settings.sourceMapUrl || path.basename(fileName)) + ".map";
@@ -15,10 +15,14 @@ function extractSourcemaps(options) {
     var sourceMapResult = splitSourcemap(bundle);
 
     if (sourceMapResult.map) {
-      mkdirp.sync(directory);
-      fs.writeFileSync(sourceMapDest, sourceMapResult.map);
-
-      return bundle.setContent(sourceMapResult.code + convertSourceMap.generateMapFileComment(sourceMapUrl));
+      if (settings === false) {
+        return bundle.setContent(sourceMapResult.code);
+      }
+      else {
+        mkdirp.sync(directory);
+        fs.writeFileSync(sourceMapDest, sourceMapResult.map);
+        return bundle.setContent(sourceMapResult.code + convertSourceMap.generateMapFileComment(sourceMapUrl));
+      }
     }
   }
 
