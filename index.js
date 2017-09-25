@@ -7,32 +7,25 @@ function extractSourcemaps(options) {
   options = options || {};
 
   function extractit(bundle) {
-    var settings = options[bundle.name] || options;
-    settings = settings.options || settings;
+    var settings = Object.assign({}, options[bundle.name] || options);
+    var fileName = bundle.dest;
+    var directory = path.dirname(fileName);
+    var sourceMapUrl = (settings.sourceMapUrl || path.basename(fileName)) + ".map";
+    var sourceMapDest = fileName + ".map";
+    var sourceMapResult = splitSourcemap(bundle);
 
-    var filename = bundle.dest;
-    var directory = path.dirname(filename);
-    var basename = path.basename(filename);
-    var sourceMapUrl = settings.sourceMapUrl || basename + ".map";
-    var sourceMapDest = filename + ".map";
-    var sourceMap = splitSourcemap(bundle);
-
-    if (sourceMap.map) {
+    if (sourceMapResult.map) {
       mkdirp.sync(directory);
-      fs.writeFileSync(sourceMapDest, sourceMap.map);
+      fs.writeFileSync(sourceMapDest, sourceMapResult.map);
 
-      var sourceMapComment = convertSourceMap.generateMapFileComment(sourceMapUrl);
-
-      return bundle
-        .setSourcemap(sourceMap.map)
-        .setContent(sourceMap.code + sourceMapComment);
+      return bundle.setContent(sourceMapResult.code + convertSourceMap.generateMapFileComment(sourceMapUrl));
     }
   }
 
   function splitSourcemap(bundle) {
-    var sourceMap = bundle.sourcemap;
+    var sourceMap;
     var bundleContent = bundle.content.toString();
-    var converter = convertSourceMap.fromSource(bundleContent, true);
+    var converter = convertSourceMap.fromSource(bundleContent);
 
     if (converter) {
       sourceMap = converter.toJSON();
