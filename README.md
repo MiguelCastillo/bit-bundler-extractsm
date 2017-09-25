@@ -28,3 +28,45 @@ Bitbundler.bundle({
   ]
 });
 ```
+
+## Remove sourcemaps
+
+### Removing sourcemaps from your bundle.
+
+You can use `bit-bundler-extractsm` to remove sourcemaps from your bundle.
+
+``` javascript
+var Bitbundler = require("bit-bundler");
+
+Bitbundler.bundle({
+  src: "in.js",
+  dest: "out.js"
+}, {
+  bundler: [
+    "bit-bundler-minifyjs",
+    ["bit-bundler-extractsm", false]
+  ]
+});
+```
+
+### Removing sourcemaps from a particular bundle split.
+
+To remove sourcemaps from a bundle split, you need to specify the name of the bundle. In the example below we remove the sourcemaps from `vendor`.
+
+``` javascript
+var Bitbundler = require("bit-bundler");
+
+Bitbundler.bundle({
+  src: "in.js",
+  dest: "out.js"
+}, {
+  bundler: [
+    ["bit-bundler-splitter", { name: "vendor", dest: "dest/vendor.js", match: { path: /\/node_modules\// } }],
+    ["bit-bundler-splitter", { name: "renderer", dest: "dest/renderer.js", match: { path: /\/src\/renderer\// } }],
+    "bit-bundler-minifyjs",
+    ["bit-bundler-extractsm", {
+      vendor: false
+    }]
+  ]
+});
+```
