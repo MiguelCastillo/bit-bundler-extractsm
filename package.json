@@ -4,7 +4,6 @@
   "description": "bit-bundler plugins for extracting source maps into their own files",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
