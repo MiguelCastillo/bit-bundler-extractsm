@@ -1,6 +1,7 @@
 # bit-bundler-extractsm
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/MiguelCastillo/bit-bundler-extractsm.svg)](https://greenkeeper.io/)
+
 [bit-bundler](https://github.com/MiguelCastillo/bit-bundler) plugin for extracting and writing source maps into their own file
 
 # usage
