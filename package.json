@@ -10,6 +10,7 @@
     "url": "git+https://github.com/MiguelCastillo/bit-bundler-extractsm.git"
   },
   "keywords": [
+    "bit-bundler",
     "bit-bundler-plugin"
   ],
   "author": "Miguel Castillo <manchagnu@gmail.com>",
