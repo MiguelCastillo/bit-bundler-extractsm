@@ -64,8 +64,10 @@ Bitbundler.bundle({
   dest: "out.js"
 }, {
   bundler: [
-    ["bit-bundler-splitter", { name: "vendor", dest: "dest/vendor.js", match: { path: /\/node_modules\// } }],
-    ["bit-bundler-splitter", { name: "renderer", dest: "dest/renderer.js", match: { path: /\/src\/renderer\// } }],
+    ["bit-bundler-splitter", [
+      { name: "vendor", dest: "dest/vendor.js", match: { path: /\/node_modules\// } }],
+      { name: "renderer", dest: "dest/renderer.js", match: { path: /\/src\/renderer\// } }
+    ],
     "bit-bundler-minifyjs",
     ["bit-bundler-extractsm", {
       vendor: false
