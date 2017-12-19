@@ -8,17 +8,18 @@ function extractSourcemaps(options) {
 
   function extractit(bundle) {
     var settings = options === false || options[bundle.name] === false ? false : Object.assign({}, options[bundle.name] || options);
-    var fileName = bundle.dest;
-    var directory = path.dirname(fileName);
-    var sourceMapUrl = (settings.sourceMapUrl || path.basename(fileName)) + ".map";
-    var sourceMapDest = fileName + ".map";
     var sourceMapResult = splitSourcemap(bundle);
 
     if (sourceMapResult.map) {
       if (settings === false) {
         return bundle.setContent(sourceMapResult.code);
       }
-      else {
+      else if (bundle.dest && typeof bundle.dest === "string") {
+        var fileName = bundle.dest;
+        var directory = path.dirname(fileName);
+        var sourceMapUrl = (settings.sourceMapUrl || path.basename(fileName)) + ".map";
+        var sourceMapDest = fileName + ".map";
+
         mkdirp.sync(directory);
         fs.writeFileSync(sourceMapDest, sourceMapResult.map);
         return bundle.setContent(sourceMapResult.code + convertSourceMap.generateMapFileComment(sourceMapUrl));
