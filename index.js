@@ -7,6 +7,10 @@ function extractSourcemaps(options) {
   options = options === false ? options : (options || {});
 
   function extractit(bundle) {
+    if (!bundle.content) {
+      return;
+    }
+
     var settings = options === false || options[bundle.name] === false ? false : Object.assign({}, options[bundle.name] || options);
     var sourceMapResult = splitSourcemap(bundle);
 
@@ -44,7 +48,7 @@ function extractSourcemaps(options) {
   }
 
   function postbundle(bundler, context) {
-    return context.visitBundles(extractit);
+    return context.updateBundles(extractit);
   }
 
   return {
