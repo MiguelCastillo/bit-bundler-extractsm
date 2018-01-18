@@ -26,7 +26,7 @@ function extractSourcemaps(options) {
 
         mkdirp.sync(directory);
         fs.writeFileSync(sourceMapDest, sourceMapResult.map);
-        return bundle.setContent(sourceMapResult.code + convertSourceMap.generateMapFileComment(sourceMapUrl));
+        return bundle.setContent(sourceMapResult.code + convertSourceMap.generateMapFileComment(sourceMapUrl) + "\n");
       }
     }
   }
